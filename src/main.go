@@ -3,10 +3,11 @@ package main
 import "fmt"
 
 func main() {
-	s := []int{0,1}
-	s = append(s,2)
+    sliceA := make([]int, 0,3)
+    for i:= -1 ;i < 15; i++{
+        sliceA = append(sliceA,i)
+        fmt.Println(len(sliceA), cap(sliceA))
+    }
 
-    s = append(s,3,4,5)
-
-    fmt.Println(s)
+    fmt.Println(sliceA)
 }
