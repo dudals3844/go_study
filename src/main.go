@@ -3,30 +3,23 @@ package main
 import (
     //"fmt"
     //"math"
-    "log"
+    //"log"
     "os"
 )
-type error interface {
-    Error() string
-}
+
 
 func main() {
-    f, err := os.Open("./")
-    if(err != nil){
-       log.Fatal(err.Error())
+    f , err := os.Open("1.txt")
+    if err != nil {
+        panic(err)
     }
-    println(f.Name())
     
-    _,err := otherFunc()
-    switch err.(type){
-    default: //no error
-        println("ok")
-    case Myerror:
-        log.Print("Log my error")
-    case error:
-        log.Fatal(err.Error())
-            
-    }
+    //main 마지막에 파일 close
+    defer f.Close()
+    bytes := make([]byte, 1024)
+    f.Read(bytes)
+    println(len(bytes))
+    
 }
 
 
