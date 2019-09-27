@@ -3,19 +3,18 @@ package main
 //import "fmt"
 
 func main() {
-    var m map[int]string
+    tickers := map[string]string{
+        "GOOG": "Google Inc",
+        "MSFT": "Microsoft",
+        "FB":   "FaceBook",
+        "AMZN": "Amazon",//마지막도 , 넣어야 된다.
+    }
     
-    m = make(map[int]string)
+    // map key check
+    val,exists := tickers["MSFT"]
+    if !exists {
+        print("NO MSFT tickers")
+    }
     
-    m[901] = "Apple"
-    m[134] = "Grape"
-    m[777] = "Tomato"
-    
-    str := m[134]
-    println(str)
-    
-    noDate := m[999]
-    println(noDate)
-    
-    delete(m, 777)//삭제
+    println(val)//키가 존재하면 Microsoft를 리턴한다.
 }
