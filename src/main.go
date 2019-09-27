@@ -1,25 +1,20 @@
 package main
 
-import "fmt"
+//import "fmt"
 
 //define struct
-type person struct {
-    name string
-    age int
+type dict struct {
+    data map[int]string
 }
 
+//생성자 함수 정의
+func newDict() *dict {
+    d := dict{}
+    d.data = map[int]string{}
+    return &d
+}
 
 func main() {
-    p := person{}//객체 생성
-    d := new(person)
-    //필드값 설정
-    p.name = "Lee"
-    p.age = 20
-    
-    d.name = "Choi"
-    d.age = 21
-    
-    fmt.Println(d)
-    
-    fmt.Println(p)
+    dic := newDict()//생성자 호출
+    dic.data[1] = "A"
 }
