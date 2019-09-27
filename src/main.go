@@ -1,8 +1,9 @@
 package main
 
-//import "fmt"
+import "fmt"
 
 func main() {
-	s := make([]int, 5, 10)
-	println(len(s), cap(s))
+	s := []int{0,1,2,3,4,5}
+	s = s[2:5]
+	fmt.Println(s)
 }
