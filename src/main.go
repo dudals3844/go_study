@@ -1,12 +1,21 @@
 package main
 
-import "fmt"
+//import "fmt"
 
 func main() {
-    sliceA := []int{1,2,3}
-    sliceB := []int{4,5,6}
+    var m map[int]string
     
-    sliceA = append(sliceA,sliceB...)//sliceB...은 모든 배열에 있는 값을 추가한다는 의미
-
-    fmt.Println(sliceA)
+    m = make(map[int]string)
+    
+    m[901] = "Apple"
+    m[134] = "Grape"
+    m[777] = "Tomato"
+    
+    str := m[134]
+    println(str)
+    
+    noDate := m[999]
+    println(noDate)
+    
+    delete(m, 777)//삭제
 }
