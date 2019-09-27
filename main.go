@@ -2,10 +2,12 @@ package main
 
 func main() {
 	msg := "Hello"
-	say(msg)
+	say(&msg)
+	println(msg)
 
 }
 
-func say(msg string) {
-	println(msg)
+func say(msg *string) {
+	println(*msg)
+	*msg = "change"
 }
