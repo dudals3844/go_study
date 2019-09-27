@@ -1,9 +1,7 @@
 package main
 
 func main() {
-	var a [3]int
-	a[0] = 1
-	a[1] = 2
+	var a1 = [3]int{1, 2, 3}
 
-	println(a[1])
+	var a3 = [...]int{1, 2, 33, 34, 2} //배열크기 자동으로 설정
 }
