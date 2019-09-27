@@ -2,19 +2,16 @@ package main
 
 //import "fmt"
 
-//define struct
-type dict struct {
-    data map[int]string
+type Rect struct {
+    width, height int
 }
-
-//생성자 함수 정의
-func newDict() *dict {
-    d := dict{}
-    d.data = map[int]string{}
-    return &d
+ 
+func (r Rect) area() int {
+    return r.width * r.height
 }
 
 func main() {
-    dic := newDict()//생성자 호출
-    dic.data[1] = "A"
+    rect := Rect{10,20}
+    area := rect.area()//메소드 호출
+    println(area)
 }
