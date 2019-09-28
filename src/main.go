@@ -5,33 +5,36 @@ import (
 	//"math"
 	//"log"
 	//"os"
-	//"time"
+	"time"
 	//"sync"
 )
 
 func main() {
-	ch := make(chan int, 2)
-	
-	ch <- 1
-	ch <- 2
-	
-	// 채널이 닫힌 것을 감지할 때까지 계속 수신
-    /*
-    for {
-        if i, success := <-ch; success {
-            println(i)
-        } else {
-            break
-        }
-    }
-    */
- 
-    // 방법2
-    // 위 표현과 동일한 채널 range 문
-	
-	for i := range ch {
-		println(i)
-	
+	done1 := make(chan bool)
+	done2 := make(chan bool)
+
+	go run1(done1)
+	go run2(done2)
+
+EXIT:
+	for {
+		select {
+			case <- done1:
+				println("run1 clear")
+
+			case <- done2:
+				println("run2 clear")
+				break EXIT
+		}
 	}
-	
+}
+
+func run1(done chan bool){
+	time.Sleep(1*time.Second)
+	done <- true
+}
+
+func run2(done chan bool){
+	time.Sleep(2*time.Second)
+	done <- true
 }
