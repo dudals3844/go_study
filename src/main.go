@@ -4,26 +4,24 @@ import (
 	"fmt"
 	//"math"
 	//"log"
-	"os"
+	//"os"
+	"time"
 )
 
-func main() {
-	openFile("1.txt")
-	println("Done")
-
+func say(s string) {
+	for i := 0; i < 10; i++ {
+		fmt.Println(s, "***", i)
+	}
 }
 
-func openFile(fn string) {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Open Error", r)
-		}
-	}()
+func main() {
+	//동기 실행
+	say("Sync")
 
-	f, err := os.Open(fn)
-	if err != nil {
-		panic(err)
-	}
+	//비동기 실행
+	go say("Async1")
+	go say("Async2")
+	go say("Async3")
 
-	defer f.Close()
+	time.Sleep(time.Second * 3)
 }
