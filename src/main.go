@@ -4,37 +4,44 @@ import (
 	//"fmt"
 	//"math"
 	//"log"
-	//"os"
-	"time"
+	"os"
+	//"time"
 	//"sync"
+	"io"
 )
 
 func main() {
-	done1 := make(chan bool)
-	done2 := make(chan bool)
+	fi, err := os.Open("/workspace/go/src/github.com/demo-apps/go-gin-app/Go_Study/src/1.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer fi.Close()
 
-	go run1(done1)
-	go run2(done2)
+	//create ouput file
+	fo, err := os.Create("/workspace/go/src/github.com/demo-apps/go-gin-app/Go_Study/src/2.txt")
+	if err != nil{
+		panic(err)
+	}
+	defer fo.Close()
+	buff := make([]byte, 1024)
 
-EXIT:
+	//loop
 	for {
-		select {
-			case <- done1:
-				println("run1 clear")
+		cnt, err := fi.Read(buff)
+		if err != nil && err != io.EOF {
+			panic(err)
+		}
 
-			case <- done2:
-				println("run2 clear")
-				break EXIT
+		if cnt == 0{
+			break
+		}
+
+		//write
+		_, err = fo.Write(buff[:cnt])
+		if err != nil{
+			panic(err)
 		}
 	}
 }
 
-func run1(done chan bool){
-	time.Sleep(1*time.Second)
-	done <- true
-}
 
-func run2(done chan bool){
-	time.Sleep(2*time.Second)
-	done <- true
-}
