@@ -1,34 +1,25 @@
 package main
 
 import (
-	"fmt"
-	//"math"
-	//"log"
-	//"os"
-	//"time"
-	"sync"
+//"fmt"
+//"math"
+//"log"
+//"os"
+//"time"
+//"sync"
 )
 
-func say(s string) {
-	for i := 0; i < 10; i++ {
-		fmt.Println(s, "***", i)
-	}
-}
-
 func main() {
-	var wait sync.WaitGroup
-	wait.Add(2)
+	ch := make(chan int) //채널의 데이터 타입을 정해준다
 
-	//익명함수를 이용한 goroutine
 	go func() {
-		defer wait.Done() //끝나면 .Done()호출
-		fmt.Println("Hello")
+		ch <- 123 //고루틴문에서 채널에 123을 보낸다
 	}()
 
-	go func(msg string) {
-		defer wait.Done() //끝나면 .Done()호출
-		fmt.Println(msg)
-	}("HI")
+	var i, j int
+	i = <-ch //메인루티에서 채널에 데이저를 받는다
+	println(i)
 
-	wait.Wait()
+	j = <-ch
+	println(j)
 }
