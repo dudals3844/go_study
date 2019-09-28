@@ -5,7 +5,8 @@ import (
 	//"math"
 	//"log"
 	//"os"
-	"time"
+	//"time"
+	"sync"
 )
 
 func say(s string) {
@@ -15,13 +16,19 @@ func say(s string) {
 }
 
 func main() {
-	//동기 실행
-	say("Sync")
+	var wait sync.WaitGroup
+	wait.Add(2)
 
-	//비동기 실행
-	go say("Async1")
-	go say("Async2")
-	go say("Async3")
+	//익명함수를 이용한 goroutine
+	go func() {
+		defer wait.Done() //끝나면 .Done()호출
+		fmt.Println("Hello")
+	}()
 
-	time.Sleep(time.Second * 3)
+	go func(msg string) {
+		defer wait.Done() //끝나면 .Done()호출
+		fmt.Println(msg)
+	}("HI")
+
+	wait.Wait()
 }
