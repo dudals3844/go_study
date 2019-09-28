@@ -1,25 +1,22 @@
 package main
 
 import (
-//"fmt"
-//"math"
-//"log"
-//"os"
-//"time"
-//"sync"
+	"fmt"
+	//"math"
+	//"log"
+	//"os"
+	//"time"
+	//"sync"
 )
 
 func main() {
-	ch := make(chan int) //채널의 데이터 타입을 정해준다
+	// c := make(chan int)
+	// c <- 1           //수신루틴이 없어 데드락
+	// fmt.Println(<-c) //별도의 고루틴이 없어서 데드락에 걸린다
 
-	go func() {
-		ch <- 123 //고루틴문에서 채널에 123을 보낸다
-	}()
-
-	var i, j int
-	i = <-ch //메인루티에서 채널에 데이저를 받는다
-	println(i)
-
-	j = <-ch
-	println(j)
+	//buffer channel
+	ch := make(chan int, 1) //chan int, 1에서 1이 버퍼의 개수이다.
+	//수신자가 없어도 보낼 수 있다
+	ch <- 101
+	fmt.Println(<-ch)
 }
