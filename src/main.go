@@ -9,19 +9,40 @@ import (
 	//"sync"
 	"io/ioutil"
 	"net/http"
-	//"bytes"
-	"net/url"
+	"bytes"
+	//"net/url"
+	"encoding/xml"
 )
+
+
+type Person struct {
+	Name string
+	Age  int
+}
 //HTTP Postform 호출
 func main() {
-	resp, err := http.PostForm("http://httpbin.org/post",url.Values{"Name":{"Lee"},"Age": {"10"}})
+	person := Person{"Alex",10}
+	pbytes, _ := xml.Marshal(person)
+	buff := bytes.NewBuffer(pbytes)
+
+	//Create Request obj
+	req, err := http.NewRequest("POST","http://httpbin.org/post",buff)
+	if err != nil{
+		panic(err)
+	}
+
+	//Content-Type header add
+	req.Header.Add("Content-Type","application/xml")
+
+	//Request start in Client obj
+	client := &http.Client{}
+	resp, err := client.Do(req)
 	if err != nil {
 		panic(err)
 	}
 
 	defer resp.Body.Close()
 
-	//Response check
 	respBody, err := ioutil.ReadAll(resp.Body)
 	if err == nil {
 		str := string(respBody)
