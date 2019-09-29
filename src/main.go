@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	//"math"
 	//"log"
 	//"os"
@@ -9,28 +9,24 @@ import (
 	//"sync"
 	"io/ioutil"
 	"net/http"
+	//"bytes"
+	"net/url"
 )
-
+//HTTP Postform 호출
 func main() {
-	//Create request obj
-	req, err := http.NewRequest("GET", "http://csharp.tips/feed/rss",nil)
-	if err != nil{
-		panic(err)
-	}
-	req.Header.Add("User-Agent","Crawler")
-
-	//Client obj start request
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	resp, err := http.PostForm("http://httpbin.org/post",url.Values{"Name":{"Lee"},"Age": {"10"}})
 	if err != nil {
 		panic(err)
 	}
+
 	defer resp.Body.Close()
 
-	//print result
-	bytes,_ := ioutil.ReadAll(resp.Body)
-	str := string(bytes)
-	fmt.Println(str)
+	//Response check
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err == nil {
+		str := string(respBody)
+		println(str)
+	}
 }
 
 
