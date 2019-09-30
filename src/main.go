@@ -3,51 +3,33 @@ package main
 import (
 	//"fmt"
 	//"math"
-	//"log"
-	//"os"
+	"log"
+	"os"
 	//"time"
 	//"sync"
-	"io/ioutil"
-	"net/http"
-	"bytes"
+	//"bytes"
+	//"io/ioutil"
+	//"net/http"
 	//"net/url"
-	"encoding/xml"
+	//"encoding/xml"
 )
 
+var myLogger *log.Logger
 
-type Person struct {
-	Name string
-	Age  int
-}
-//HTTP Postform 호출
 func main() {
-	person := Person{"Alex",10}
-	pbytes, _ := xml.Marshal(person)
-	buff := bytes.NewBuffer(pbytes)
-
-	//Create Request obj
-	req, err := http.NewRequest("POST","http://httpbin.org/post",buff)
-	if err != nil{
-		panic(err)
-	}
-
-	//Content-Type header add
-	req.Header.Add("Content-Type","application/xml")
-
-	//Request start in Client obj
-	client := &http.Client{}
-	resp, err := client.Do(req)
+	fpLog, err := os.OpenFile("/src/1.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		panic(err)
 	}
 
-	defer resp.Body.Close()
+	defer fpLog.Close()
 
-	respBody, err := ioutil.ReadAll(resp.Body)
-	if err == nil {
-		str := string(respBody)
-		println(str)
-	}
+	myLogger = log.New(fpLog, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
+
+	run()
+	myLogger.Println("End of Program")
 }
 
-
+func run() {
+	myLogger.Print("Test")
+}
