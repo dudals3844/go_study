@@ -3,45 +3,33 @@ package main
 import (
 	//"fmt"
 	//"math"
-	//"log"
+	"log"
 	"os"
 	//"time"
 	//"sync"
-	"io"
+	//"bytes"
+	//"io/ioutil"
+	//"net/http"
+	//"net/url"
+	//"encoding/xml"
 )
 
+var myLogger *log.Logger
+
 func main() {
-	fi, err := os.Open("/workspace/go/src/github.com/demo-apps/go-gin-app/Go_Study/src/1.txt")
+	fpLog, err := os.OpenFile("/src/1.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		panic(err)
 	}
-	defer fi.Close()
 
-	//create ouput file
-	fo, err := os.Create("/workspace/go/src/github.com/demo-apps/go-gin-app/Go_Study/src/2.txt")
-	if err != nil{
-		panic(err)
-	}
-	defer fo.Close()
-	buff := make([]byte, 1024)
+	defer fpLog.Close()
 
-	//loop
-	for {
-		cnt, err := fi.Read(buff)
-		if err != nil && err != io.EOF {
-			panic(err)
-		}
+	myLogger = log.New(fpLog, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 
-		if cnt == 0{
-			break
-		}
-
-		//write
-		_, err = fo.Write(buff[:cnt])
-		if err != nil{
-			panic(err)
-		}
-	}
+	run()
+	myLogger.Println("End of Program")
 }
 
-
+func run() {
+	myLogger.Print("Test")
+}
